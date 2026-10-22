@@ -242,6 +242,8 @@ The `remote_temperature_timeout` setting allows the unit to revert back to the i
 
 `debounce_delay` adds a small delay to the command processing to account for some HomeAssistant buttons that may send repeat commands too quickly. A shorter value creates a more responsive UI, a longer value protects against repeat commands. (See https://github.com/echavet/MitsubishiCN105ESPHome/issues/21)
 
+`three_speed_fan` (default `false`) is for indoor units that only have three fan speeds plus Auto, such as the ducted SEZ-M DA series. On these units the High speed is reported as protocol speed `3`, which is normally shown as `MIDDLE`. With `three_speed_fan: true` speed `3` is shown as `HIGH`, and `HIGH` is sent as speed `3`. Use `fan_mode: [AUTO, LOW, MEDIUM, HIGH]` under `supports` with it.
+
 `connection_bootstrap_delay` delays the initial CN105 UART connection sequence (UART init + CONNECT handshake) **after boot**, to ensure the OTA log stream has time to attach. This is useful when troubleshooting cold-boot issues remotely: without a delay, the very first connection logs can be missed because the log client connects a few seconds after reboot. While this delay is active, the component will **not start communication cycles** until the heatpump replies with the connection success packet.
 
 Recommended: start with `10s` and increase (e.g., `30s`) if you still miss early logs. A safety fallback starts anyway after 120s.
