@@ -1078,7 +1078,7 @@ void HeatPumpProfile::control_fan() {
         hp_.setFanSpeed("3");
         break;
     case climate::CLIMATE_FAN_HIGH:
-        hp_.setFanSpeed("4");
+        hp_.setFanSpeed(hp_.three_speed_fan_ ? "3" : "4");
         break;
     case climate::CLIMATE_FAN_ON:
     case climate::CLIMATE_FAN_AUTO:
@@ -1109,7 +1109,7 @@ void HeatPumpProfile::reconcile_fan(heatpumpSettings& settings, bool updateCurre
         } else if (strcmp(settings.fan, "2") == 0) {
             hp_.fan_mode = climate::CLIMATE_FAN_MEDIUM;
         } else if (strcmp(settings.fan, "3") == 0) {
-            hp_.fan_mode = climate::CLIMATE_FAN_MIDDLE;
+            hp_.fan_mode = hp_.three_speed_fan_ ? climate::CLIMATE_FAN_HIGH : climate::CLIMATE_FAN_MIDDLE;
         } else if (strcmp(settings.fan, "4") == 0) {
             hp_.fan_mode = climate::CLIMATE_FAN_HIGH;
         } else { //case "AUTO" or default:
