@@ -243,6 +243,10 @@ namespace esphome {
 
         void set_debounce_delay(uint32_t delay);
 
+        // Three-speed indoor units (e.g. SEZ-M DA ducted) report their High speed as protocol "3":
+        // map it to HIGH instead of MIDDLE, and send "3" for HIGH.
+        void set_three_speed_fan(bool three_speed_fan) { this->three_speed_fan_ = three_speed_fan; }
+
         // this is the ping or heartbeat of the setRemotetemperature for timeout management
         void pingExternalTemperature();
 
@@ -469,6 +473,7 @@ namespace esphome {
         uint8_t remote_temp_debounce_skip_count_ = 0;   // Counter for consecutive debounce skips
         bool remote_temp_heartbeat_warning_shown_ = false;  // Avoid spamming the warning
         uint32_t debounce_delay_;
+        bool three_speed_fan_ = false;
 
         int baud_ = 0;
         int tx_pin_ = -1;
