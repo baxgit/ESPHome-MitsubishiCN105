@@ -173,6 +173,7 @@ CN105Climate = cg.global_ns.class_(
 CONF_REMOTE_TEMP_TIMEOUT = "remote_temperature_timeout"
 CONF_REMOTE_TEMP_KEEPALIVE_INTERVAL = "remote_temperature_keepalive_interval"
 CONF_DEBOUNCE_DELAY = "debounce_delay"
+CONF_THREE_SPEED_FAN = "three_speed_fan"
 CONF_CONNECTION_BOOTSTRAP_DELAY = "connection_bootstrap_delay"
 CONF_INSTALLER_MODE = "installer_mode"
 CONF_LOSSNAY = "lossnay"
@@ -543,6 +544,8 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_DEBOUNCE_DELAY, default="100ms"): cv.All(
                 cv.update_interval
             ),
+            # Indoor units with only three fan speeds (e.g. SEZ-M DA): speed "3" is High
+            cv.Optional(CONF_THREE_SPEED_FAN, default=False): cv.boolean,
             cv.Optional(CONF_CONNECTION_BOOTSTRAP_DELAY, default="10s"): cv.All(
                 cv.update_interval
             ),
@@ -692,6 +695,7 @@ def to_code(config):
 
     cg.add(var.set_remote_temp_timeout(config[CONF_REMOTE_TEMP_TIMEOUT]))
     cg.add(var.set_debounce_delay(config[CONF_DEBOUNCE_DELAY]))
+    cg.add(var.set_three_speed_fan(config[CONF_THREE_SPEED_FAN]))
     cg.add(
         var.set_remote_temp_keepalive_interval(
             int(config[CONF_REMOTE_TEMP_KEEPALIVE_INTERVAL].total_milliseconds)
